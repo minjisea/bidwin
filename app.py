@@ -22,14 +22,13 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # ============================================================
 # 데이터 & 모델 로드
 # ============================================================
-def read_csv_auto(path):
-    for enc in ('utf-8-sig', 'cp949', 'euc-kr', 'utf-8'):
-        try:
-            return pd.read_csv(path, encoding=enc, on_bad_lines='skip')
-        except (UnicodeDecodeError, LookupError):
-            continue
-    raise ValueError(f"CSV 읽기 실패: {path}")
+import chardet
 
+def read_csv_auto(path):
+    with open(path, 'rb') as f:
+        enc = chardet.detect(f.read(50000))['encoding'] or 'cp949'
+    return pd.read_csv(path, encoding=enc, on_bad_lines='skip')
+    
 @st.cache_data
 def load_data():
     scored_path = os.path.join(BASE_DIR, '05output', 'scored_all.csv')
