@@ -36,7 +36,9 @@ def load_data():
         df = read_csv_auto(scored_path)
     else:
         df = read_csv_auto(os.path.join(BASE_DIR, '03output', 'full_featured_small.csv'))
-        df['공고게시일자'] = pd.to_datetime(df['공고게시일자'], errors='coerce')
+    st.write(df.columns.tolist())  # 디버그
+    st.stop()
+    df['공고게시일자'] = pd.to_datetime(df['공고게시일자'], errors='coerce')
     return df
 
 @st.cache_data
