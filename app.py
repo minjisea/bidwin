@@ -28,9 +28,7 @@ def load_data():
     if os.path.exists(scored_path):
         df = pd.read_csv(scored_path, encoding='utf-8-sig')
     else:
-        # Google Drive 직접 다운로드 링크 사용
-        url = "https://drive.google.com/uc?id=1Mfqh0eautBticb3iUp0d2W8hMWEMmncb"
-        df = pd.read_csv(url, encoding='utf-8-sig')
+        df = pd.read_csv(os.path.join(BASE_DIR, '03output', 'full_featured.csv'), encoding='utf-8-sig')
     df['공고게시일자'] = pd.to_datetime(df['공고게시일자'], errors='coerce')
     return df
 
