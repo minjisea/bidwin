@@ -36,7 +36,7 @@ def load_data():
         df = read_csv_auto(scored_path)
     else:
         df = read_csv_auto(os.path.join(BASE_DIR, '03output', 'full_featured_small.csv'))
-    df['공고게시일자'] = pd.to_datetime(df['공고게시일자'], errors='coerce')
+        df['공고게시일자'] = pd.to_datetime(df['공고게시일자'], errors='coerce')
     return df
 
 @st.cache_data
@@ -60,8 +60,6 @@ def load_feature_importance():
     return None
 
 df = load_data()
-st.write(df.columns.tolist())  # 임시 디버그
-st.stop()
 exp_results = load_experiment_results()
 feat_imp = load_feature_importance()
 
