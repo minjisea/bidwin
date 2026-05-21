@@ -60,6 +60,8 @@ def load_feature_importance():
     return None
 
 df = load_data()
+st.write(df.columns.tolist())  # 임시 디버그
+st.stop()
 exp_results = load_experiment_results()
 feat_imp = load_feature_importance()
 
