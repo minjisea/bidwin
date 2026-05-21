@@ -22,36 +22,42 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # ============================================================
 # 데이터 & 모델 로드
 # ============================================================
+def read_csv_auto(path):
+    for enc in ('utf-8-sig', 'cp949', 'euc-kr', 'utf-8'):
+        try:
+            return pd.read_csv(path, encoding=enc)
+        except (UnicodeDecodeError, LookupError):
+            continue
+    raise ValueError(f"인코딩 감지 실패: {path}")
+
 @st.cache_data
 def load_data():
     scored_path = os.path.join(BASE_DIR, '05output', 'scored_all.csv')
     if os.path.exists(scored_path):
-        df = pd.read_csv(scored_path, encoding='utf-8-sig')
+        df = read_csv_auto(scored_path)
     else:
-        df = pd.read_csv(os.path.join(BASE_DIR, '03output', 'full_featured_small.csv'), encoding='utf-8-sig')
+        df = read_csv_auto(os.path.join(BASE_DIR, '03output', 'full_featured_small.csv'))
     df['공고게시일자'] = pd.to_datetime(df['공고게시일자'], errors='coerce')
     return df
 
 @st.cache_data
 def load_experiment_results():
-    # 06output 우선 (논문급 다중 모델 비교)
     path06 = os.path.join(BASE_DIR, '06output', 'model_comparison.csv')
     if os.path.exists(path06):
-        return pd.read_csv(path06, encoding='utf-8-sig')
+        return read_csv_auto(path06)
     path = os.path.join(BASE_DIR, '04output', 'all_experiment_results.csv')
     if os.path.exists(path):
-        return pd.read_csv(path, encoding='utf-8-sig')
+        return read_csv_auto(path)
     return None
 
 @st.cache_data
 def load_feature_importance():
-    # 06output 우선 (최종 모델 FI)
     path06 = os.path.join(BASE_DIR, '06output', 'feature_importance_final.csv')
     if os.path.exists(path06):
-        return pd.read_csv(path06, encoding='utf-8-sig')
+        return read_csv_auto(path06)
     path = os.path.join(BASE_DIR, '04output', 'feature_importance_v2.csv')
     if os.path.exists(path):
-        return pd.read_csv(path, encoding='utf-8-sig')
+        return read_csv_auto(path)
     return None
 
 df = load_data()
