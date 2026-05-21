@@ -25,10 +25,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 def read_csv_auto(path):
     for enc in ('utf-8-sig', 'cp949', 'euc-kr', 'utf-8'):
         try:
-            return pd.read_csv(path, encoding=enc)
+            return pd.read_csv(path, encoding=enc, on_bad_lines='skip')
         except (UnicodeDecodeError, LookupError):
             continue
-    raise ValueError(f"인코딩 감지 실패: {path}")
+    raise ValueError(f"CSV 읽기 실패: {path}")
 
 @st.cache_data
 def load_data():
