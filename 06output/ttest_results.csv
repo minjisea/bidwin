@@ -1,0 +1,4 @@
+﻿Comparison,t_statistic,p_value,significant
+LightGBM vs Ridge,-158.1256,0.0,유의 (p<0.05)
+LightGBM vs XGBoost,-2.7188,0.016634,유의 (p<0.05)
+LightGBM vs CatBoost,-62.9304,0.0,유의 (p<0.05)
