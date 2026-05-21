@@ -27,7 +27,7 @@ import chardet
 def read_csv_auto(path):
     with open(path, 'rb') as f:
         enc = chardet.detect(f.read(50000))['encoding'] or 'cp949'
-    return pd.read_csv(path, encoding=enc, on_bad_lines='skip')
+    return pd.read_csv(path, encoding=enc, sep='\t', on_bad_lines='skip')
     
 @st.cache_data
 def load_data():
